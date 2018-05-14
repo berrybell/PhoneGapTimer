@@ -1,12 +1,8 @@
-# Adobe PhoneGap Timer [![bitHound Score][bithound-img]][bithound-url]
+# Adobe PhoneGap Timer
 
 Timer running on Adobe PhoneGap.
+Countdown uses [EasyTimer.js](http://albert-gonzalez.github.io/easytimer.js/) library.
 
 ## Features
 
 ## Installation
-
-[phonegap-cli-url]: http://github.com/phonegap/phonegap-cli
-[cordova-app]: http://github.com/apache/cordova-app-hello-world
-[bithound-img]: https://www.bithound.io/github/phonegap/phonegap-app-hello-world/badges/score.svg
-[bithound-url]: https://www.bithound.io/github/phonegap/phonegap-app-hello-world

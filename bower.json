@@ -1,0 +1,20 @@
+{
+  "name": "PhoneGapTimer",
+  "homepage": "https://github.com/berrybell/PhoneGapTimer",
+  "authors": [
+    "Olga Vorozheykina <solariskind@gmail.com>"
+  ],
+  "description": "Countdown timer running on Adobe PhoneGap",
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "easytimer.js": "^2.2.1"
+  }
+}

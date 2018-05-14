@@ -16,27 +16,66 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-    }
+  // Application Constructor
+  initialize: function() {
+    this.bindEvents();
+  },
+  // Bind Event Listeners
+  //
+  // Bind any events that are required on startup. Common events are:
+  // 'load', 'deviceready', 'offline', and 'online'.
+  bindEvents: function() {
+    document.addEventListener("deviceready", this.onDeviceReady, false);
+  },
+  // deviceready Event Handler
+  //
+  // The scope of 'this' is the event. In order to call the 'receivedEvent'
+  // function, we must explicitly call 'app.receivedEvent(...);'
+  onDeviceReady: function() {
+    app.receivedEvent("deviceready");
+  },
+  // Update DOM on a Received Event
+  receivedEvent: function(id) {}
 };
 
+// Main timer script
+
+// Example timer
+
+var exampleTimer = new Timer();
+
+$("#exampleTimer .startButton").click(function() {
+  exampleTimer.start({ countdown: true, startValues: { seconds: 30 } });
+});
+$("#exampleTimer .pauseButton").click(function() {
+  exampleTimer.pause();
+});
+$("#exampleTimer .stopButton").click(function() {
+  exampleTimer.stop();
+});
+$("#exampleTimer .resetButton").click(function() {
+  exampleTimer.reset();
+  exampleTimer.stop();
+});
+
+exampleTimer.addEventListener("secondsUpdated", function(e) {
+  $("#exampleTimer #timerValue").html(exampleTimer.getTimeValues().toString());
+});
+exampleTimer.addEventListener("started", function(e) {
+  $("#exampleTimer #timerValue").html(exampleTimer.getTimeValues().toString());
+});
+exampleTimer.addEventListener("targetAchieved", function(e) {
+  $("#exampleTimer #timerValue").html("Done!");
+});
+exampleTimer.addEventListener("reset", function(e) {
+  $("#exampleTimer #timerValue").html("00:00:30");
+});
+
+//Moving unused timers back to Save
+//$("#active").on("click", ".removeTimer", function(){
+//	$(this).parent().append("<button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></p>");
+//	$(this).parent().clone().appendTo("#readyTimers");
+//	$(this).parent().remove();
+//});
