@@ -35,6 +35,7 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     app.receivedEvent("deviceready");
+    console.log(navigator.vibrate);
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {}
@@ -47,7 +48,7 @@ var app = {
 var exampleTimer = new Timer();
 
 $("#exampleTimer .startButton").click(function() {
-  exampleTimer.start({ countdown: true, startValues: { seconds: 30 } });
+  exampleTimer.start({ countdown: true, startValues: { seconds: 5 } });
 });
 $("#exampleTimer .pauseButton").click(function() {
   exampleTimer.pause();
@@ -61,16 +62,17 @@ $("#exampleTimer .resetButton").click(function() {
 });
 
 exampleTimer.addEventListener("secondsUpdated", function(e) {
-  $("#exampleTimer #timerValue").html(exampleTimer.getTimeValues().toString());
+  $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
 });
 exampleTimer.addEventListener("started", function(e) {
-  $("#exampleTimer #timerValue").html(exampleTimer.getTimeValues().toString());
+  $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
 });
 exampleTimer.addEventListener("targetAchieved", function(e) {
   $("#exampleTimer #timerValue").html("Done!");
+  navigator.vibrate(vibroLength);
 });
 exampleTimer.addEventListener("reset", function(e) {
-  $("#exampleTimer #timerValue").html("00:00:30");
+  $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
 });
 
 //Moving unused timers back to Save
@@ -79,3 +81,12 @@ exampleTimer.addEventListener("reset", function(e) {
 //	$(this).parent().clone().appendTo("#readyTimers");
 //	$(this).parent().remove();
 //});
+
+// Helper for current timer value
+
+function showCurrentTime(timer) {
+  return timer.getTimeValues().toString();
+}
+
+// Set vibration length
+var vibroLength = document.getElementById("vibro-length").value;

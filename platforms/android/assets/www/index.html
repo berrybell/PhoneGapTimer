@@ -175,7 +175,7 @@
 
                 <div id="exampleTimer">
                     <p><strong id="timerName">Example countdown timer</strong></p>
-                    <p id="timerValue">00:00:30</p>
+                    <p id="timerValue">00:00:05</p>
                     <form>
                         <button type='button' class='ui-btn ui-btn-inline startButton'>Start</button>
                         <button type='button' class='ui-btn ui-btn-inline pauseButton'>Pause</button>
@@ -204,6 +204,14 @@
             <h1>Settings</h1>
         </div>
         <div role="main" class="ui-content">
+            <label for="vibration-length">Vibrate for:</label>
+            <select name="vibration-length" id="vibro-length">
+                <option value="1000">1 second</option>
+                <option value="2000">2 seconds</option>
+                <option value="3000">3 seconds</option>
+                <option value="4000">4 seconds</option>
+                <option value="5000">5 seconds</option>
+            </select>
         </div>
 
         <div data-role="footer" data-position="fixed">
