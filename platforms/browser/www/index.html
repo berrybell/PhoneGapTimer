@@ -31,6 +31,7 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
   <link rel="stylesheet" href="http://cdn.jtsage.com/datebox/1.4.5/jqm-datebox-1.4.5.min.css" />
+  <link rel="stylesheet" href="./css/index.css" />
   <link rel="stylesheet" href="./css/sailor.min.css" />
   <link rel="stylesheet" href="./css/jquery.mobile.icons.min.css" />
   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
@@ -208,14 +209,28 @@
       <h1>Settings</h1>
     </div>
     <div role="main" class="ui-content">
-      <label for="vibration-length">Vibrate for:</label>
-      <select name="vibration-length" id="vibro-length">
-        <option value="1000">1 second</option>
-        <option value="2000">2 seconds</option>
-        <option value="3000">3 seconds</option>
-        <option value="4000">4 seconds</option>
-        <option value="5000">5 seconds</option>
-      </select>
+      <h2>Notification mode</h2>
+
+      <fieldset data-role="controlgroup" data-type="horizontal" class="ui-controlgroup ui-controlgroup-horizontal ui-corner-all">
+        <h3 class='form-subheading'>Vibrate:</h4>
+          <form id='vibrate' class="ui-controlgroup-controls">
+            <div class="ui-radio"><label for="radio-view-a-a" data-form="ui-btn-up-a" class="ui-btn ui-corner-all ui-btn-a ui-radio-on ui-btn-active ui-first-child">On</label>
+              <input onClick='checkVibrate()' data-theme="a" type="radio" name="radio-view-a" id="radio-view-a-a" value="true"
+                checked="checked"></div>
+            <div class="ui-radio"><label for="radio-view-b-a" data-form="ui-btn-up-a" class="ui-btn ui-corner-all ui-btn-a ui-radio-off ui-last-child">Off</label>
+              <input data-theme="a" onClick='checkVibrate()' value="false" type="radio" name="radio-view-a" id="radio-view-b-a"></div>
+          </form>
+      </fieldset>
+
+      <div id="vibration-length--wrapper"><label for="vibration-length">Vibrate for:</label>
+        <select name="vibration-length" id="vibration-length" onchange="setVibrateLength()">
+          <option value="1000">1 second</option>
+          <option value="2000">2 seconds</option>
+          <option value="3000" default>3 seconds</option>
+          <option value="4000">4 seconds</option>
+          <option value="5000">5 seconds</option>
+        </select>
+      </div>
     </div>
 
     <div data-role="footer" data-position="fixed">
@@ -231,44 +246,6 @@
 
   <script type="text/javascript" src="cordova.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
-
-  <script type="text/javascript">
-    $(document).on("pagecreate", function () {
-      $(document).on("pagecontainershow", function () {
-        $(".ui-content").height(getRealContentHeight());
-      })
-
-      $(window).on("resize orientationchange", function () {
-        $(".ui-content").height(getRealContentHeight());
-      })
-
-      function getRealContentHeight() {
-        var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
-          screen = $.mobile.getScreenHeight(),
-          header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight() - 1 : $(".ui-header").outerHeight(),
-          footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight(),
-          contentMargins = $(".ui-content", activePage).outerHeight() - $(".ui-content", activePage).height();
-        var contentHeight = screen - header - footer - contentMargins;
-
-        return contentHeight;
-      }
-    });
-
-    // Common functions
-    function pad(number, length) {
-      var str = '' + number;
-      while (str.length < length) { str = '0' + str; }
-      return str;
-    }
-    function formatTime(time) {
-      var min = parseInt(time / 6000),
-        sec = parseInt(time / 100) - (min * 60),
-        hundredths = pad(time - (sec * 100) - (min * 6000), 2);
-      return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
-    }
-
-    app.initialize();
-  </script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
-- Wide UI and utilizing multiple own solutions outside the course scope. 
-- The user interface is designed and user friendly.
+- Wide UI and utilizing multiple own solutions 
+✔ The user interface is designed and user friendly. @done(18-10-16 22:11)
 - Demanding logic with a lot of own solutions
 - Multiple plugins
-- Saving data
+✔ Saving data: saves timers to LocalStorage @done(18-10-16 22:11)

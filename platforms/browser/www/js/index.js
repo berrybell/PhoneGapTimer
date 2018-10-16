@@ -17,6 +17,34 @@
  * under the License.
  */
 
+// On load
+$(document).on("pagecreate", function() {
+  $(document).on("pagecontainershow", function() {
+    $(".ui-content").height(getRealContentHeight());
+  });
+
+  $(window).on("resize orientationchange", function() {
+    $(".ui-content").height(getRealContentHeight());
+  });
+
+  function getRealContentHeight() {
+    var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
+      screen = $.mobile.getScreenHeight(),
+      header = $(".ui-header").hasClass("ui-header-fixed")
+        ? $(".ui-header").outerHeight() - 1
+        : $(".ui-header").outerHeight(),
+      footer = $(".ui-footer").hasClass("ui-footer-fixed")
+        ? $(".ui-footer").outerHeight() - 1
+        : $(".ui-footer").outerHeight(),
+      contentMargins =
+        $(".ui-content", activePage).outerHeight() -
+        $(".ui-content", activePage).height();
+    var contentHeight = screen - header - footer - contentMargins;
+
+    return contentHeight;
+  }
+});
+
 var app = {
   // Application Constructor
   initialize: function() {
@@ -41,10 +69,28 @@ var app = {
   receivedEvent: function(id) {}
 };
 
+app.initialize();
+
+var vibroLength = 1000;
+
+// Common functions
+function pad(number, length) {
+  var str = "" + number;
+  while (str.length < length) {
+    str = "0" + str;
+  }
+  return str;
+}
+function formatTime(time) {
+  var min = parseInt(time / 6000),
+    sec = parseInt(time / 100) - min * 60,
+    hundredths = pad(time - sec * 100 - min * 6000, 2);
+  return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
+}
+
 // Main timer script
 
 // Example timer
-
 var exampleTimer = new Timer();
 
 $("#exampleTimer .startButton").click(function() {
@@ -70,6 +116,7 @@ exampleTimer.addEventListener("started", function(e) {
 exampleTimer.addEventListener("targetAchieved", function(e) {
   $("#exampleTimer #timerValue").html("Done!");
   navigator.vibrate(vibroLength);
+  console.log("Vibrated for" + vibroLength);
 });
 exampleTimer.addEventListener("reset", function(e) {
   $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
@@ -83,10 +130,19 @@ exampleTimer.addEventListener("reset", function(e) {
 //});
 
 // Helper for current timer value
-
 function showCurrentTime(timer) {
   return timer.getTimeValues().toString();
 }
 
+//Check if vibration is on and show/hide length
+function checkVibrate() {
+  var vibrateOn = $("#vibrate input[type='radio']:checked").val();
+  if (vibrateOn === "true") {
+    $("#vibration-length--wrapper").show();
+  } else $("#vibration-length--wrapper").hide();
+}
+
 // Set vibration length
-var vibroLength = document.getElementById("vibro-length").value;
+function setVibrateLength() {
+  vibroLength = $("#vibration-length").val();
+}
