@@ -120,7 +120,7 @@ exampleTimer.addEventListener("targetAchieved", function(e) {
   navigator.vibrate(vibroLength);
   console.log("Vibrated for" + vibroLength);
   navigator.notification.alert("Timer finished!", alertDismissed);
-  navigator.notification.beep(times);
+  navigator.notification.beep(beeps);
 });
 exampleTimer.addEventListener("reset", function(e) {
   $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
