@@ -64,6 +64,7 @@ var app = {
   onDeviceReady: function() {
     app.receivedEvent("deviceready");
     console.log(navigator.vibrate);
+    console.log(navigator.notification);
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {}
@@ -72,6 +73,7 @@ var app = {
 app.initialize();
 
 var vibroLength = 1000;
+var beeps = 2;
 
 // Common functions
 function pad(number, length) {
@@ -117,6 +119,8 @@ exampleTimer.addEventListener("targetAchieved", function(e) {
   $("#exampleTimer #timerValue").html("Done!");
   navigator.vibrate(vibroLength);
   console.log("Vibrated for" + vibroLength);
+  navigator.notification.alert("Timer finished!", alertDismissed);
+  navigator.notification.beep(times);
 });
 exampleTimer.addEventListener("reset", function(e) {
   $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
@@ -145,4 +149,13 @@ function checkVibrate() {
 // Set vibration length
 function setVibrateLength() {
   vibroLength = $("#vibration-length").val();
+}
+
+function setBeeps() {
+  beeps = Number($("#beeps").val());
+}
+
+function alertDismissed() {
+  //TODO: do something
+  console.log("Alert dismissed");
 }

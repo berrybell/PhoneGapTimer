@@ -70,7 +70,7 @@
           <input type="text" name="name" id="name" class="addTimerField">
           <button type="submit" id="saveTimer" class="ui-btn ui-btn-inline" data-inline="true">Save</button>
           <!--Adding new step
-                       <button type="button" id="addSteps" class="ui-btn ui-btn-inline" data-inline="true">Add next step</button>-->
+                      <button type="button" id="addSteps" class="ui-btn ui-btn-inline" data-inline="true">Add next step</button>-->
         </form>
       </div>
 
@@ -230,6 +230,10 @@
           <option value="4000">4 seconds</option>
           <option value="5000">5 seconds</option>
         </select>
+      </div>
+
+      <div id="vibration-length--wrapper"><label for="beeps">Beeps on completion:</label>
+        <input type='number' name="beeps" id="beeps" min='0' max='5' onchange="setBeeps()" />
       </div>
     </div>
 
