@@ -17,6 +17,11 @@
  * under the License.
  */
 
+//Global variables
+var vibroLength = 1000;
+var beeps = 2;
+var timers = [];
+
 // On load
 $(document).on("pagecreate", function() {
   $(document).on("pagecontainershow", function() {
@@ -65,18 +70,14 @@ var app = {
     app.receivedEvent("deviceready");
     console.log(navigator.vibrate);
     console.log(navigator.notification);
-    var data = JSON.parse(localStorage.getItem("timers"));
-    data.forEach(timer => createTimer(timer));
+    timers = JSON.parse(localStorage.getItem("timers"));
+    timers.forEach(timer => createTimer(timer));
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {}
 };
 
 app.initialize();
-
-var vibroLength = 1000;
-var beeps = 2;
-var timers = [];
 
 // Common functions
 function pad(number, length) {
