@@ -17,3 +17,7 @@ bower_components/easytimer.js/src/easytimer/leftPadding.js
 bower_components/easytimer.js/src/easytimer/timeCounter.js
 bower_components/easytimer.js/src/examples/examples.js
 bower_components/easytimer.js/src/examples/jquery.js
+
+# Cordova
+/platforms
+/plugins
