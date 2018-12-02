@@ -65,6 +65,8 @@ var app = {
     app.receivedEvent("deviceready");
     console.log(navigator.vibrate);
     console.log(navigator.notification);
+    var data = JSON.parse(localStorage.getItem("timers"));
+    data.forEach(timer => createTimer(timer));
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {}
@@ -74,6 +76,7 @@ app.initialize();
 
 var vibroLength = 1000;
 var beeps = 2;
+var timers = [];
 
 // Common functions
 function pad(number, length) {
@@ -110,22 +113,25 @@ $("#addTimer").validate({
     var durInMs = durArray[0] * 360000 + durArray[1] * 6000 + durArray[2] * 100;
 
     var timer = { name: newTimerName, length: durInMs };
-    console.log("Timer: " + timer);
-
-    localStorage.setItem("name", newTimerName);
-    localStorage.setItem("length", durInMs);
+    timers.push(timer);
+    localStorage.setItem("timers", JSON.stringify(timers));
     //var retrievedTimer = localStorage.getItem('A');
     //console.log(JSON.parse(retrievedTimer));
 
-    $("#readyTimers").append(
-      "<p class='timer'><b>Name: </b>" +
-        timer.name +
-        "<br><b>Duration: </b>" +
-        newTimerDur +
-        "<button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></p>"
-    );
+    createTimer(timer);
   }
 });
+
+//Create timer div
+function createTimer(timer) {
+  $("#readyTimers").append(
+    "<div class='timer'><b>Name: </b>" +
+      timer.name +
+      "<br><b>Duration: </b>" +
+      timer.length +
+      "<div><button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>"
+  );
+}
 
 //Hides entry form
 $(document).ready(function() {
@@ -152,7 +158,7 @@ $(document).on("click", ".startTimer", function() {
   $(this)
     .parent()
     .append(
-      "<button type='button' class='ui-btn ui-btn-inline' onclick='exCountdown.Timer.toggle();'>Play/Pause</button><button type='button' value='Stop/Reset' class='ui-btn ui-btn-inline' onclick='exCountdown.resetCountdown();'>Reset</button>"
+      "<form><button type='button' class='ui-btn ui-btn-inline startButton'>Start</button><button type='button' class='ui-btn ui-btn-inline pauseButton'>Pause</button><button type='button' class='ui-btn ui-btn-inline stopButton'>Stop</button><button type='button' class='ui-btn ui-btn-inline resetButton'>Reset</button></form>"
     );
   $(this)
     .parent()
