@@ -79,21 +79,6 @@ var app = {
 
 app.initialize();
 
-// Common functions
-function pad(number, length) {
-  var str = "" + number;
-  while (str.length < length) {
-    str = "0" + str;
-  }
-  return str;
-}
-function formatTime(time) {
-  var min = parseInt(time / 6000),
-    sec = parseInt(time / 100) - min * 60,
-    hundredths = pad(time - sec * 100 - min * 6000, 2);
-  return (min > 0 ? pad(min, 2) : "00") + ":" + pad(sec, 2) + ":" + hundredths;
-}
-
 // Main timer script
 
 //Adding the timer
@@ -129,7 +114,7 @@ function createTimer(timer) {
     "<div class='timer'><b>Name: </b>" +
       timer.name +
       "<br><b>Duration: </b>" +
-      timer.length +
+      msToString(timer.length) +
       "<div><button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>"
   );
 }
@@ -230,8 +215,3 @@ exampleTimer.addEventListener("reset", function(e) {
 //	$(this).parent().clone().appendTo("#readyTimers");
 //	$(this).parent().remove();
 //});
-
-// Helper for current timer value
-function showCurrentTime(timer) {
-  return timer.getTimeValues().toString();
-}
