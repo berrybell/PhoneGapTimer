@@ -70,8 +70,11 @@ var app = {
     app.receivedEvent("deviceready");
     console.log(navigator.vibrate);
     console.log(navigator.notification);
-    timers = JSON.parse(localStorage.getItem("timers"));
-    timers.forEach(timer => createTimer(timer));
+
+    if (localStorage.getItem("timers") !== null) {
+      timers = JSON.parse(localStorage.getItem("timers"));
+      timers.forEach(timer => createTimer(timer));
+    }
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {}
@@ -96,13 +99,12 @@ $("#addTimer").validate({
     document.getElementById("addTimer").reset();
 
     var durArray = newTimerDur.split(":");
-    var durInMs = durArray[0] * 360000 + durArray[1] * 6000 + durArray[2] * 100;
+    var durInMs =
+      durArray[0] * 3.6e6 + durArray[1] * 60000 + durArray[2] * 1000;
 
     var timer = { name: newTimerName, length: durInMs };
     timers.push(timer);
     localStorage.setItem("timers", JSON.stringify(timers));
-    //var retrievedTimer = localStorage.getItem('A');
-    //console.log(JSON.parse(retrievedTimer));
 
     createTimer(timer);
   }
@@ -117,6 +119,10 @@ function createTimer(timer) {
       msToString(timer.length) +
       "<div><button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>"
   );
+  $("#readyTimers")
+    .children()
+    .last()
+    .data(timer);
 }
 
 //Hides entry form
@@ -129,8 +135,9 @@ $("#addButton").click(function() {
 });
 
 //Remove all timers
-$("#removeButton").click(function() {
+$("#removeAllButton").click(function() {
   localStorage.clear();
+  timers.length = 0;
   $("#readyTimers").empty();
   alert("All timers removed");
 });
@@ -158,7 +165,17 @@ $(document).on("click", ".startTimer", function() {
 });
 
 $(document).on("click", ".removeTimer", function() {
+  var timerToRemove = $(this)
+    .parent()
+    .parent()
+    .data();
+  timers = timers.filter(
+    id =>
+      !(id.name === timerToRemove.name && id.length === timerToRemove.length)
+  );
+  localStorage.setItem("timers", JSON.stringify(timers));
   $(this)
+    .parent()
     .parent()
     .remove();
 });
