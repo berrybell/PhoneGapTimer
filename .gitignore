@@ -1,22 +1,4 @@
-bower_components/easytimer.js/rollup.config.js
-bower_components/easytimer.js/.bower.json
-bower_components/easytimer.js/README.md
-bower_components/easytimer.js/bower.json
-bower_components/easytimer.js/index.html
-bower_components/easytimer.js/index.d.ts
-bower_components/easytimer.js/package.json
-bower_components/easytimer.js/package-lock.json
-bower_components/easytimer.js/rollup.config.examples.js
-bower_components/easytimer.js/dist/easytimer.js
-bower_components/easytimer.js/dist/easytimer.min.js
-bower_components/easytimer.js/dist/examples.min.css
-bower_components/easytimer.js/dist/examples.min.js
-bower_components/easytimer.js/src/easytimer/customEventPolyfill.js
-bower_components/easytimer.js/src/easytimer/easytimer.js
-bower_components/easytimer.js/src/easytimer/leftPadding.js
-bower_components/easytimer.js/src/easytimer/timeCounter.js
-bower_components/easytimer.js/src/examples/examples.js
-bower_components/easytimer.js/src/examples/jquery.js
+node_modules/
 
 # Cordova
 /platforms
