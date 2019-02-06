@@ -82,8 +82,8 @@ $(document).on("click", ".startTimer", function() {
     .append(
       "<form><button type='button' class='ui-btn ui-btn-inline startButton'>Start</button><button type='button' class='ui-btn ui-btn-inline pauseButton'>Pause</button><button type='button' class='ui-btn ui-btn-inline stopButton'>Stop</button><button type='button' class='ui-btn ui-btn-inline resetButton'>Reset</button></form>"
     );
+  $(this).remove();
   timerDiv.clone().appendTo("#activeTimers");
-
   timerDiv.remove();
   // $("#timerName").text(localStorage.getItem("name"));
   //$("#countdown").text(localStorage.getItem(length));
