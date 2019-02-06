@@ -60,12 +60,17 @@ $("#removeAllButton").click(function() {
   localStorage.clear();
   timers.length = 0;
   $("#readyTimers").empty();
-  alert("All timers removed");
+  navigator.notification.alert(
+    "All timers removed",
+    function() {},
+    "Ready!",
+    "OK"
+  );
 });
 
 //Moves timer to Active page
 $(document).on("click", ".startTimer", function() {
-  alert("Ready to start timer");
+  navigator.notification.alert("Ready to start timer", function() {});
   var timerDiv = $(this)
     .parent()
     .parent();
@@ -139,7 +144,7 @@ exampleTimer.addEventListener("targetAchieved", function(e) {
   $("#exampleTimer #timerValue").html("Done!");
   navigator.vibrate(vibroLength);
   console.log("Vibrated for" + vibroLength);
-  navigator.notification.alert("Timer finished!", alertDismissed);
+  navigator.notification.alert("Timer finished!", function() {});
   navigator.notification.beep(beeps);
 });
 exampleTimer.addEventListener("reset", function(e) {
