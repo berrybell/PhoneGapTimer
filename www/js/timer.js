@@ -31,19 +31,22 @@ $("#addTimer").validate({
   }
 });
 
+const buttons =
+  "<div><button type='button' class='activateTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>";
 //Create timer div
 function createTimer(timer) {
   $("#readyTimers").append(
     "<div class='timer'><b>Name: </b>" +
       timer.name +
-      "<br><b>Duration: </b>" +
+      "<br><b>Duration: </b><span class='timerValue'>" +
       msToString(timer.length) +
-      "<div><button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>"
+      "</span>" +
+      buttons
   );
   $("#readyTimers")
     .children()
     .last()
-    .data(timer);
+    .data({ name: timer.name, dur: timer.length });
 }
 
 //Hides entry form
@@ -69,11 +72,12 @@ $("#removeAllButton").click(function() {
 });
 
 //Moves timer to Active page
-$(document).on("click", ".startTimer", function() {
+$(document).on("click", ".activateTimer", function() {
   navigator.notification.alert("Ready to start timer", function() {});
   var timerDiv = $(this)
     .parent()
     .parent();
+  console.log(timerDiv.data());
   $(this)
     .siblings()
     .remove();
@@ -83,12 +87,55 @@ $(document).on("click", ".startTimer", function() {
       "<form><button type='button' class='ui-btn ui-btn-inline startButton'>Start</button><button type='button' class='ui-btn ui-btn-inline pauseButton'>Pause</button><button type='button' class='ui-btn ui-btn-inline stopButton'>Stop</button><button type='button' class='ui-btn ui-btn-inline resetButton'>Reset</button></form>"
     );
   $(this).remove();
-  timerDiv.clone().appendTo("#activeTimers");
-  timerDiv.remove();
+  timerDiv.detach().appendTo("#activeTimers");
   // $("#timerName").text(localStorage.getItem("name"));
   //$("#countdown").text(localStorage.getItem(length));
 });
 
+// Run timer
+$(document).on("click", ".startButton", function() {
+  var startButton = $(this);
+  startButton.attr("disabled", "true");
+  var timerDiv = $(this)
+    .parent()
+    .parent()
+    .parent();
+  var timer = new Timer();
+  timer.start({
+    countdown: true,
+    startValues: { seconds: timerDiv.data("dur") / 1000 }
+  });
+
+  // timerDiv.children(".pauseButton").click(function() {
+  //   timer.pause();
+  // });
+  // timerDiv.children(".stopButton").click(function() {
+  //   timer.stop();
+  // });
+  // timerDiv.children(".resetButton").click(function() {
+  //   timer.reset();
+  //   timer.stop();
+  // });
+
+  timer.addEventListener("secondsUpdated", function(e) {
+    timerDiv.children(".timerValue").html(showCurrentTime(timer));
+  });
+  timer.addEventListener("started", function(e) {
+    timerDiv.children(".timerValue").html(showCurrentTime(timer));
+  });
+  timer.addEventListener("targetAchieved", function(e) {
+    startButton.removeAttr("disabled");
+    navigator.vibrate(vibroLength);
+    console.log("Vibrated for" + vibroLength);
+    navigator.notification.alert(
+      timerDiv.data("name") + " finished!",
+      function() {}
+    );
+    navigator.notification.beep(beeps);
+  });
+});
+
+// Remove timer
 $(document).on("click", ".removeTimer", function() {
   var timerToRemove = $(this)
     .parent()
@@ -153,7 +200,7 @@ exampleTimer.addEventListener("reset", function(e) {
 
 //Moving unused timers back to Save
 //$("#active").on("click", ".removeTimer", function(){
-//	$(this).parent().append("<button type='button' class='startTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></p>");
+//	$(this).parent().append("<button type='button' class='activateTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></p>");
 //	$(this).parent().clone().appendTo("#readyTimers");
 //	$(this).parent().remove();
-//});
+//})
