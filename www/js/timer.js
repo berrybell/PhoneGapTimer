@@ -54,12 +54,11 @@ $(document).ready(function() {
   $("#addTimer").hide();
 });
 
-$("#addButton").click(function() {
+function toggleAddTimer() {
   $("#addTimer").toggle();
-});
+}
 
-//Remove all timers
-$("#removeAllButton").click(function() {
+function removeAllTimers() {
   localStorage.clear();
   timers.length = 0;
   $("#readyTimers").empty();
@@ -69,10 +68,10 @@ $("#removeAllButton").click(function() {
     "Ready!",
     "OK"
   );
-});
+}
 
 //Moves timer to Active page
-$(document).on("click", ".activateTimer", function() {
+function activateTimer() {
   navigator.notification.alert("Ready to start timer", function() {});
   var timerDiv = $(this)
     .parent()
@@ -90,38 +89,28 @@ $(document).on("click", ".activateTimer", function() {
   timerDiv.detach().appendTo("#activeTimers");
   // $("#timerName").text(localStorage.getItem("name"));
   //$("#countdown").text(localStorage.getItem(length));
-});
+}
 
-// Run timer
-$(document).on("click", ".startButton", function() {
+function startTimer() {
   var startButton = $(this);
-  startButton.attr("disabled", "true");
   var timerDiv = $(this)
     .parent()
     .parent()
     .parent();
+
   var timer = new Timer();
   timer.start({
     countdown: true,
     startValues: { seconds: timerDiv.data("dur") / 1000 }
   });
 
-  // timerDiv.children(".pauseButton").click(function() {
-  //   timer.pause();
-  // });
-  // timerDiv.children(".stopButton").click(function() {
-  //   timer.stop();
-  // });
-  // timerDiv.children(".resetButton").click(function() {
-  //   timer.reset();
-  //   timer.stop();
-  // });
+  startButton.attr("disabled", "true");
 
   timer.addEventListener("secondsUpdated", function(e) {
-    timerDiv.children(".timerValue").html(showCurrentTime(timer));
+    updateTimerTime(timerDiv, timer);
   });
   timer.addEventListener("started", function(e) {
-    timerDiv.children(".timerValue").html(showCurrentTime(timer));
+    updateTimerTime(timerDiv, timer);
   });
   timer.addEventListener("targetAchieved", function(e) {
     startButton.removeAttr("disabled");
@@ -133,10 +122,33 @@ $(document).on("click", ".startButton", function() {
     );
     navigator.notification.beep(beeps);
   });
-});
+  timer.addEventListener("reset", function(e) {
+    updateTimerTime(timerDiv, timer);
+  });
 
-// Remove timer
-$(document).on("click", ".removeTimer", function() {
+  $(".timer .pauseButton").click(function() {
+    if (timer.isPaused()) {
+      timer.start();
+      timerDiv.children(".pauseButton").html("Pause");
+    } else {
+      this.timer.pause();
+      timerDiv.children(".pauseButton").html("Continue");
+    }
+  });
+  $(".timer .stopButton").click(function() {
+    timer.stop();
+    updateTimerTime(timerDiv, timer);
+    startButton.removeAttr("disabled");
+  });
+  $(".timer .resetButton").click(function() {
+    timer.reset();
+    timer.stop();
+    updateTimerTime(timerDiv, timer);
+    startButton.removeAttr("disabled");
+  });
+}
+
+function removeTimer() {
   var timerToRemove = $(this)
     .parent()
     .parent()
@@ -150,7 +162,7 @@ $(document).on("click", ".removeTimer", function() {
     .parent()
     .parent()
     .remove();
-});
+}
 
 //Adding steps to timer
 //$(document).on("click", "#addSteps", function(){
@@ -164,39 +176,16 @@ $(document).on("click", ".removeTimer", function() {
 //Retrieve the object from storage
 //var retrievedTimer = localStorage.getItem('testTimer');
 
-// Example timer
-var exampleTimer = new Timer();
+function updateTimerTime(timerDiv, timer) {
+  timerDiv.children(".timerValue").html(showCurrentTime(timer));
+}
 
-$("#exampleTimer .startButton").click(function() {
-  exampleTimer.start({ countdown: true, startValues: { seconds: 5 } });
-});
-$("#exampleTimer .pauseButton").click(function() {
-  exampleTimer.pause();
-});
-$("#exampleTimer .stopButton").click(function() {
-  exampleTimer.stop();
-});
-$("#exampleTimer .resetButton").click(function() {
-  exampleTimer.reset();
-  exampleTimer.stop();
-});
-
-exampleTimer.addEventListener("secondsUpdated", function(e) {
-  $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
-});
-exampleTimer.addEventListener("started", function(e) {
-  $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
-});
-exampleTimer.addEventListener("targetAchieved", function(e) {
-  $("#exampleTimer #timerValue").html("Done!");
-  navigator.vibrate(vibroLength);
-  console.log("Vibrated for" + vibroLength);
-  navigator.notification.alert("Timer finished!", function() {});
-  navigator.notification.beep(beeps);
-});
-exampleTimer.addEventListener("reset", function(e) {
-  $("#exampleTimer #timerValue").html(showCurrentTime(exampleTimer));
-});
+//Event listeners
+$("#addButton").click(toggleAddTimer);
+$("#removeAllButton").click(removeAllTimers);
+$(document).on("click", ".activateTimer", activateTimer);
+$(document).on("click", ".startButton", startTimer);
+$(document).on("click", ".removeTimer", removeTimer);
 
 //Moving unused timers back to Save
 //$("#active").on("click", ".removeTimer", function(){
