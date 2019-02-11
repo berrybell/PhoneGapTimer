@@ -98,7 +98,7 @@ function startTimer() {
     .parent()
     .parent();
 
-  var timer = new Timer();
+  var timer = new easytimer.Timer();
   timer.start({
     countdown: true,
     startValues: { seconds: timerDiv.data("dur") / 1000 }
@@ -131,7 +131,7 @@ function startTimer() {
       timer.start();
       timerDiv.children(".pauseButton").html("Pause");
     } else {
-      this.timer.pause();
+      timer.pause();
       timerDiv.children(".pauseButton").html("Continue");
     }
   });
