@@ -145,21 +145,21 @@ function startTimer() {
     updateTimerTime(timerDiv, timer);
   });
 
-  $(".timer .pauseButton").click(function() {
+  pauseButton.click(function() {
     if (timer.isPaused()) {
       timer.start();
-      timerDiv.children(".pauseButton").html("Pause");
+      pauseButton.html("Pause");
     } else {
       timer.pause();
-      timerDiv.children(".pauseButton").html("Continue");
+      pauseButton.html("Continue");
     }
   });
-  $(".timer .stopButton").click(function() {
+  stopButton.click(function() {
     timer.stop();
     updateTimerTime(timerDiv, timer);
-    startButton.removeAttr("disabled");
+    resetButtonState(startButton, pauseButton);
   });
-  $(".timer .resetButton").click(function() {
+  resetButton.click(function() {
     timer.reset();
     timer.stop();
     updateTimerTime(timerDiv, timer);
@@ -197,6 +197,11 @@ function removeTimer() {
 
 function updateTimerTime(timerDiv, timer) {
   timerDiv.children(".timerValue").html(showCurrentTime(timer));
+}
+
+function resetButtonState(startButton, pauseButton) {
+  startButton.removeAttr("disabled");
+  pauseButton.html("Pause");
 }
 
 //Event listeners
