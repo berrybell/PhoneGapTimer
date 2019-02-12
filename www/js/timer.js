@@ -32,7 +32,8 @@ $("#addTimer").validate({
 });
 
 const buttons =
-  "<div><button type='button' class='activateTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>";
+  "<div><button type='button' class='activateTimer ui-btn ui-btn-inline'>Activate</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></div></div>";
+
 //Create timer div
 function createTimer(timer) {
   $("#readyTimers").append(
@@ -83,12 +84,30 @@ function activateTimer() {
   $(this)
     .parent()
     .append(
-      "<form><button type='button' class='ui-btn ui-btn-inline startButton'>Start</button><button type='button' class='ui-btn ui-btn-inline pauseButton'>Pause</button><button type='button' class='ui-btn ui-btn-inline stopButton'>Stop</button><button type='button' class='ui-btn ui-btn-inline resetButton'>Reset</button></form>"
+      "<form><button type='button' class='ui-btn ui-btn-inline startButton'>Start</button><button type='button' class='ui-btn ui-btn-inline pauseButton'>Pause</button><button type='button' class='ui-btn ui-btn-inline stopButton'>Stop</button><button type='button' class='ui-btn ui-btn-inline resetButton'>Reset</button> <button type='button' class='ui-btn ui-btn-inline deactivateButton'>Deactivate</button></form>"
     );
   $(this).remove();
   timerDiv.detach().appendTo("#activeTimers");
   // $("#timerName").text(localStorage.getItem("name"));
   //$("#countdown").text(localStorage.getItem(length));
+}
+//Moves unused timers to All
+function deactivateTimer() {
+  var timerDiv = $(this)
+    .parent()
+    .parent()
+    .parent();
+
+  $(this)
+    .parent()
+    .parent()
+    .append(
+      "<button type='button' class='activateTimer ui-btn ui-btn-inline'>Activate</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></p>"
+    );
+  timerDiv.detach().appendTo("#readyTimers");
+  $(this)
+    .parent()
+    .remove();
 }
 
 function startTimer() {
@@ -186,10 +205,4 @@ $("#removeAllButton").click(removeAllTimers);
 $(document).on("click", ".activateTimer", activateTimer);
 $(document).on("click", ".startButton", startTimer);
 $(document).on("click", ".removeTimer", removeTimer);
-
-//Moving unused timers back to Save
-//$("#active").on("click", ".removeTimer", function(){
-//	$(this).parent().append("<button type='button' class='activateTimer ui-btn ui-btn-inline'>Start</button><button type='button' class='removeTimer ui-btn ui-btn-inline'>Remove</button></p>");
-//	$(this).parent().clone().appendTo("#readyTimers");
-//	$(this).parent().remove();
-//})
+$(document).on("click", ".deactivateButton", deactivateTimer);
