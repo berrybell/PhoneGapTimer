@@ -3,8 +3,7 @@ var vibroLength = 1000;
 var beeps = 2;
 var timers = [];
 
-// Main timer script
-
+//Main timer script
 //Adding the timer
 $("#addTimer").validate({
   rules: {
@@ -49,11 +48,6 @@ function createTimer(timer) {
     .last()
     .data({ name: timer.name, dur: timer.length });
 }
-
-//Hides entry form
-$(document).ready(function() {
-  $("#addTimer").hide();
-});
 
 function toggleAddTimer() {
   $("#addTimer").toggle();
@@ -111,7 +105,11 @@ function deactivateTimer() {
 }
 
 function startTimer() {
+  //This is necessary so that click only affects the necessary timer
   var startButton = $(this);
+  var pauseButton = $(this).siblings(".pauseButton");
+  var stopButton = $(this).siblings(".stopButton");
+  var resetButton = $(this).siblings(".resetButton");
   var timerDiv = $(this)
     .parent()
     .parent()
@@ -161,9 +159,7 @@ function startTimer() {
   });
   resetButton.click(function() {
     timer.reset();
-    timer.stop();
     updateTimerTime(timerDiv, timer);
-    startButton.removeAttr("disabled");
   });
 }
 
@@ -173,8 +169,7 @@ function removeTimer() {
     .parent()
     .data();
   timers = timers.filter(
-    id =>
-      !(id.name === timerToRemove.name && id.length === timerToRemove.length)
+    id => !(id.name === timerToRemove.name && id.length === timerToRemove.dur)
   );
   localStorage.setItem("timers", JSON.stringify(timers));
   $(this)
@@ -182,18 +177,6 @@ function removeTimer() {
     .parent()
     .remove();
 }
-
-//Adding steps to timer
-//$(document).on("click", "#addSteps", function(){
-//	$(".addTimerField").clone().appendTo("input:last-of-type");
-//});
-
-//Multistep timer as JSON object
-//var testTimer = { 'name': aaa, 'one': 1000, 'two': 2000, 'three': 3000 };
-//Put object into storage
-//localStorage.setItem('testTimer', JSON.stringify(testTimer));
-//Retrieve the object from storage
-//var retrievedTimer = localStorage.getItem('testTimer');
 
 function updateTimerTime(timerDiv, timer) {
   timerDiv.children(".timerValue").html(showCurrentTime(timer));
