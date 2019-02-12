@@ -10,6 +10,7 @@ Timer running on Adobe PhoneGap. Built with [Hello World PhoneGap Template](http
 
 ## Features
 
+- Run one or several timers of predetermined length
 - Get vibration notifications on your phone when the timer reaches zero
 - Turn vibration on/off or set custom length
 
