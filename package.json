@@ -1,0 +1,30 @@
+{
+  "name": "com.phonegap.helloworld",
+  "version": "1.0.0",
+  "displayName": "helloworld",
+  "cordova": {
+    "platforms": [
+      "browser"
+    ],
+    "plugins": {
+      "cordova-plugin-console": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-device-orientation": {},
+      "cordova-plugin-dialogs": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-vibration": {},
+      "nodejs-mobile-cordova": {}
+    }
+  },
+  "dependencies": {
+    "cordova-android": "^7.1.4",
+    "cordova-browser": "^5.0.4",
+    "cordova-plugin-console": "~1.0.2",
+    "cordova-plugin-device": "~1.1.1",
+    "cordova-plugin-device-orientation": "~1.0.2",
+    "cordova-plugin-dialogs": "~1.2.0",
+    "cordova-plugin-splashscreen": "~3.2.1",
+    "cordova-plugin-vibration": "~2.1.5",
+    "nodejs-mobile-cordova": "~0.2.2"
+  }
+}
