@@ -27,6 +27,11 @@ $(document).on("pagecreate", function() {
     $(".ui-content").height(getRealContentHeight());
   });
 
+  //Hides entry form on start
+  $(document).ready(function() {
+    $("#addTimer").hide();
+  });
+
   function getRealContentHeight() {
     var activePage = $.mobile.pageContainer.pagecontainer("getActivePage"),
       screen = $.mobile.getScreenHeight(),
