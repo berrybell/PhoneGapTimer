@@ -22,7 +22,7 @@ function msToString(s) {
   var mins = s % 60;
   var hrs = (s - mins) / 60;
 
-  return hrs + ":" + pad(mins, 2) + ":" + pad(secs, 2);
+  return pad(hrs, 2) + ":" + pad(mins, 2) + ":" + pad(secs, 2);
 }
 
 function showCurrentTime(timer) {
